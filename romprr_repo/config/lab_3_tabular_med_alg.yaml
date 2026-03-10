@@ -15,7 +15,7 @@ hyperparameters:
   model: model.tabular_models.Custom_MLP
   net_args:
     input_dim: 21
-    output_size: 3
+    output_size: 2
   server:
     weighted: true
 name: fluke.algorithms.fedavg.FedAVG

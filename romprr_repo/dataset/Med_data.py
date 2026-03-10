@@ -60,7 +60,7 @@ def CDC_DIABETES_INDICATORS(**kwargs) -> DataContainer :
         y_train=torch.tensor(y_train.to_numpy(), dtype=torch.long).squeeze(),
         X_test=torch.tensor(X_test.to_numpy(), dtype=torch.float32),
         y_test=torch.tensor(y_test.to_numpy(), dtype=torch.long).squeeze(),
-        num_classes=3
+        num_classes=2
     )
 
 if __name__ == '__main__' :
