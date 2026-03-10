@@ -1,8 +1,0 @@
-myst-parser
-sphinx-design
-sphinx-tags
-sphinx-copybutton
-sphinx-inline-tabs
-shibuya
-myst-nb
-fluke-fl

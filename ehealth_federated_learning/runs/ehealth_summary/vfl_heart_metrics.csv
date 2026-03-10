@@ -1,2 +1,0 @@
-method,test_accuracy,test_macro_f1,privacy_noise_std,epochs,batch_size,estimated_comm_mb,fairness_dp_gap,fairness_eod_gap,fairness_group_acc_gap
-VFL_2party_heart,0.7989130434782609,0.7904392526241266,0.05,30,64,5.390625,0.30469798657718117,0.0292553191489362,0.03394055608820701
