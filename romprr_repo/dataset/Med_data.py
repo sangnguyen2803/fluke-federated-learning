@@ -3,8 +3,8 @@ from sklearn.discriminant_analysis import StandardScaler
 import torch
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from fluke.data.datasets import DataContainer
-from ucimlrepo import fetch_ucirepo 
+from fluke_package.fluke.data.datasets import DataContainer
+# from ucimlrepo import fetch_ucirepo 
 
 # Need to update to just clean up the dataset (pull from kaggle & remove rows with label 1 and change label 2 to one after)
  
@@ -13,8 +13,9 @@ def CDC_DIABETES_INDICATORS(**kwargs) -> DataContainer :
     data_path = kwargs.get('path')
 
     os.makedirs(data_path, exist_ok=True)
+    
+    data_file = os.path.join(data_path, "cdc_dataset.csv")
 
-    # Define file paths for features and targets
     x_file = os.path.join(data_path, 'X.csv')
     y_file = os.path.join(data_path, 'y.csv')
 
@@ -26,12 +27,15 @@ def CDC_DIABETES_INDICATORS(**kwargs) -> DataContainer :
         print(f"Data set of {len(X)} columns.")
 
     else:
-        print('Downloading CDC DIABTEHES HEALTH INDICATORS from UCIML repository')
-        cdc_diabetes_health_indicators = fetch_ucirepo(id=891) 
-    
-        # data (as pandas dataframes) 
-        X = cdc_diabetes_health_indicators.data.features 
-        y = cdc_diabetes_health_indicators.data.targets 
+        print('Cleaning dataset from kaggle (please download it and paste it to ./data/cdc_dataset.csv)')
+        
+        df = pd.read_csv(data_file)
+
+        df = df[df['Diabetes_012'] != 1]
+        df['Diabetes_012'] = df['Diabetes_012'].replace(2, 1)
+
+        y = pd.DataFrame(df.pop('Diabetes_012'))
+        X = df
 
         print(f"Data set of {len(X)} columns.")
 
