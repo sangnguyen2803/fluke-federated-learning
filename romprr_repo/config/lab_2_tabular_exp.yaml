@@ -1,7 +1,7 @@
 data:
   client_split: 0.2
   dataset:
-    name: dataset.tabular_dataset.SimpleTabularDataset
+    name: adult
     path: ./data
   distribution:
     name: iid
