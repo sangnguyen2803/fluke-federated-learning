@@ -502,6 +502,17 @@ class VerticalFL:
                     emb_detached = emb.detach().requires_grad_(True)
                     embeddings.append(emb_detached)
 
+                    # Track uplink communication (client -> server): embedding tensor
+                    self._channel.notify(
+                        event="message_received",
+                        by=self.server,
+                        message=Message(
+                            payload=emb_detached.detach(),
+                            msg_type="vfl_embedding",
+                            sender=client,
+                        ),
+                    )
+
                 # Server forward + backward
                 loss_val, grads = self.server.train_step(embeddings, y_batch)
                 running_loss += loss_val
@@ -509,6 +520,16 @@ class VerticalFL:
 
                 # Client backward passes
                 for i, client in enumerate(self.clients):
+                    # Track downlink communication (server -> client): gradient tensor
+                    self._channel.notify(
+                        event="message_received",
+                        by=client,
+                        message=Message(
+                            payload=grads[i].detach(),
+                            msg_type="vfl_grad",
+                            sender=self.server,
+                        ),
+                    )
                     client.backward_step(grads[i])
 
             # Step schedulers after each epoch
