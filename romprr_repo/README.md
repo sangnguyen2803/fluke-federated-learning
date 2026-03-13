@@ -1,21 +1,24 @@
-# Federated Learning Labs (romprr_repo)
+# Federated Learning Labs
+Master MINDS - Foundations, Privacy, and Decentralized Applications
+Student:
+- Sang NGUYEN
+- Romain PORRIER 
+
+
 
 This folder is the working repository for the labs and experiment tracking.
 
 It contains:
-- experiment configurations,
-- custom datasets and custom tabular/VFL models,
-- run outputs (CSV logs),
+- experiment configurations
+- custom datasets and custom tabular/VFL models
+- run outputs (CSV logs)
 - analysis notebooks for each lab.
-
-> Scope note: this README documents `romprr_repo` only. The vendored `fluke_package` is not documented here, except for the vertical FL extension used in this repo.
-
 ---
 
 ## 1) Repository structure
 
 ```text
-romprr_repo/
+fl-lab/
 ├── config/                     # Experiment and algorithm YAML files
 ├── data/                       # Raw and cached datasets
 ├── dataset/                    # Custom dataset loaders
@@ -30,7 +33,7 @@ romprr_repo/
 
 ## 2) Setup
 
-From `romprr_repo/`:
+From `fl-lab/`:
 
 1. Create/activate a Python environment.
 2. Install dependencies from `fluke_package/requirements.txt`.
@@ -50,11 +53,38 @@ If installation is correct, CLI entrypoint should be available via:
 ### Lab 2
 - `adult` (built-in dataset name in config)
 
+
 ### Lab 3 and VFL
-- Based on a Kaggle dataset (already in data/) : [available here](https://www.kaggle.com/datasets/sulianova/cardiovascular-disease-dataset)
-- `dataset.Med_data.CARDIO_DATASET`
-	- expected raw file: `data/cardio_train.csv`
-	- cached intermediate files: `data/X_cardio.csv`, `data/y_cardio.csv`
+- **Dataset used:** [Cardiovascular Disease Dataset (Kaggle)](https://www.kaggle.com/datasets/sulianova/cardiovascular-disease-dataset)
+
+#### Details:
+- **Number of records:** 70,000
+- **Number of features:** 12 (excluding `id` and label)
+- **Fields:**
+	- `id`: Sample identifier (not used for training)
+	- `age`: Age (in days)
+	- `gender`: Gender (1: female, 2: male)
+	- `height`: Height (cm)
+	- `weight`: Weight (kg)
+	- `ap_hi`: Systolic blood pressure
+	- `ap_lo`: Diastolic blood pressure
+	- `cholesterol`: Cholesterol level (1: normal, 2: above normal, 3: well above normal)
+	- `gluc`: Glucose level (1: normal, 2: above normal, 3: well above normal)
+	- `smoke`: Smoking (0: no, 1: yes)
+	- `alco`: Alcohol intake (0: no, 1: yes)
+	- `active`: Physical activity (0: no, 1: yes)
+	- `cardio`: **Target label** (0: no cardiovascular disease, 1: has disease)
+
+- **Target:** `cardio` (binary classification)
+
+- **Dataset processing file:** [`dataset/Med_data.py`](dataset/Med_data.py)
+	- Reads data from `data/cardio_train.csv`
+	- Drops the `id` column, extracts `cardio` as the target
+	- Splits into train/test (80/20)
+	- Caches: `data/X_cardio.csv`, `data/y_cardio.csv`
+	- Returns PyTorch tensors for training
+
+> Reference: [Kaggle - Cardiovascular Disease Dataset](https://www.kaggle.com/datasets/sulianova/cardiovascular-disease-dataset)
 
 ---
 
